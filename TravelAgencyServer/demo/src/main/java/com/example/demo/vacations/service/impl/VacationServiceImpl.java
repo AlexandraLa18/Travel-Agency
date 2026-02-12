@@ -223,7 +223,6 @@ public class VacationServiceImpl implements VacationServiceIF {
         Vacation vacation = vacationRepository.findById(vacationId)
                 .orElseThrow(() -> new RuntimeException("Vacation not found"));
 
-        // set 'used' to false for vacation, hotel, and flight
         vacation.setUsed(false);
         if (vacation.getHotel() != null) {
             vacation.getHotel().setUsed(false);

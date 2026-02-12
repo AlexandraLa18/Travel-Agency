@@ -42,7 +42,7 @@ public class HotelApiService {
                 hotel.setStars(String.valueOf(hotelJson.getInt("stars")));
                 hotel.setDistance(hotelJson.getString("distance"));
                 hotel.setRelevantPoiDistance(hotelJson.optString("relevantPoiDistance", "-"));
-                //
+
                 String priceInINR = hotelJson.getString("price").substring(2).trim(); // Remove the "₹ " sign (first two characters) and trim whitespace
                 double priceValueINR = 0.0;
 
@@ -61,7 +61,6 @@ public class HotelApiService {
                 // Format the price in EUR with two decimal places
                 String priceInEUR = String.format("€%.2f", priceValueEUR);
                 hotel.setPrice(priceInEUR);
-                //
                 hotel.setPriceDescription(hotelJson.getString("priceDescription"));
                 hotel.setTaxPolicy(hotelJson.getString("taxPolicy"));
                 hotel.setCheckin(checkin);

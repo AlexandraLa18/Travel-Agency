@@ -90,9 +90,6 @@ public class FlightController {
             @RequestParam String departureDestination,
             @RequestParam int noOfPassengers) {
         List<Flight> flights = flightsServiceIF.getFlightBookings(fromDestinationId, toDestinationId, departureOrigin, departureDestination, noOfPassengers);
-//        if (flights.isEmpty()) {
-//            return ResponseEntity.noContent().build();
-//        }
         return ResponseEntity.ok(flights);
     }
 

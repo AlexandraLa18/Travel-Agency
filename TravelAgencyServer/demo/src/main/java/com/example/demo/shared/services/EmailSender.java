@@ -11,8 +11,8 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 @Service
 public class EmailSender {
-    private final String from = "lambaalexandra1804@gmail.com";?////////
-    private final String password = "cfyw fpcx jmvt evhm"; // App Password
+    private final String from = "lambaalexandra1804@gmail.com";
+    private final String password = "cfyw fpcx jmvt evhm";
 
     public void sendEmail(String to, String subject, String text) {
         String host = "smtp.gmail.com";

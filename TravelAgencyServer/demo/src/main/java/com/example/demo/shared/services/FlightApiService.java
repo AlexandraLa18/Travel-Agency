@@ -44,7 +44,7 @@ public class FlightApiService {
                 flight.setFromDestination(fromDestination);
                 flight.setToDestination(toDestination);
                 flight.setUsed(false);
-                //
+
                 String priceInUSDString = itinerary.getJSONObject("price").getString("formatted").substring(1); // Remove the dollar sign
                 double priceValueUSD = 0.0;
 
@@ -64,7 +64,6 @@ public class FlightApiService {
                 // Format the price in EUR with two decimal places
                 String priceInEUR = String.format("€%.2f", priceValueEUR);
                 flight.setPrice(priceInEUR);
-                //
                 flight.setNoPassengers(noPassengers);
                 flight.setCabinClass(cabinClass);
 

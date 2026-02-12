@@ -3,7 +3,6 @@ package com.example.demo.user.controller;
 import com.example.demo.shared.models.HotelSearchResponseDTO;
 import com.example.demo.shared.models.SearchRequestDTO;
 import com.example.demo.shared.models.UsersSearchResponseDTO;
-//import com.example.demo.simpleVacation.model.SimpleVacation;
 import com.example.demo.user.model.User;
 import com.example.demo.user.model.UserDTO;
 import com.example.demo.user.service.UserServiceIF;

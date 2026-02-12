@@ -73,12 +73,6 @@ public class DestinationServiceImpl implements DestinationServiceIF {
 
     @Override
     public ResponseEntity<?> deleteDestinationById(Long id) {
-//        if (destinationRepository.existsById(id)) {
-//            destinationRepository.deleteById(id);
-//            return new ResponseEntity<>(HttpStatus.OK);
-//        } else {
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
         Optional<Destination> destinationOptional = destinationRepository.findById(id);
 
         if (destinationOptional.isPresent()) {
@@ -98,16 +92,4 @@ public class DestinationServiceImpl implements DestinationServiceIF {
         List<Destination> destinations = service.getDestinationsFromApi(name);
         return destinations;
     }
-
-//    private DestinationDTO convertToDestinationDTO(Destination destination) {
-//        DestinationDTO dto = new DestinationDTO();
-//        dto.setDestination_id(destination.getDestination_id());
-//        dto.setCity(destination.getCity());
-//        dto.setCountry(destination.getCountry());
-//        dto.setEntityId(destination.getEntityId());
-//        dto.setImageUrl(destination.getImageUrl());
-//        dto.setShowInDashboard(destination.isShowInDashboard());
-//
-//        return dto;
-//    }
 }

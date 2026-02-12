@@ -87,28 +87,6 @@ public class HotelServiceImpl implements HotelServiceIF {
         responseDTO.setTotal(dtoPage.getTotalElements());
 
         return responseDTO;
-//        int x = searchRequest.getPaginationDTO().getPage();
-//        int y = searchRequest.getPaginationDTO().getPageSize();
-//
-//        List<Hotel> all = getAllHotels();
-//        List<Hotel> newList = new ArrayList<>();
-//        int i = x*y;
-//        int z = x*y+y;
-//        while(i>=0 && i < z && i < all.size()) {
-//            if (!all.get(i).isUsed()) newList.add(all.get(i));
-//            i++;
-//        }
-//        List<HotelDTO> dtoList = new ArrayList<>();
-//        if(newList.size() > 0) {
-//            for (Hotel hotel : newList) {
-//                dtoList.add(HotelMapper.toDTO(hotel));
-//            }
-//        }
-//        final HotelSearchResponseDTO responseDTO = new HotelSearchResponseDTO();
-//        responseDTO.setResults(dtoList);
-//        responseDTO.setTotal((long) all.size());
-//
-//        return responseDTO;
     }
 
     @Override

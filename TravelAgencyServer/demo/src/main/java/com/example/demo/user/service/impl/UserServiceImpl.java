@@ -49,7 +49,6 @@ public class UserServiceImpl implements UserServiceIF {
         UserDTO dto = new UserDTO();
         dto.setId(user.getId());
         dto.setEmail(user.getEmail());
-        // Initialize and convert lists if necessary, or handle them according to your needs
         return dto;
     }
     @Override
@@ -91,13 +90,4 @@ public class UserServiceImpl implements UserServiceIF {
 
         return responseDTO;
     }
-
-//    private UserDTO convertToUserDTO(User user) {
-//        UserDTO dto = new UserDTO();
-//        dto.setId(user.getId());
-//        dto.setEmail(user.getEmail());
-//        dto.setPassword(user.getPassword());
-//        dto.setRole(user.getRole());
-//        return dto;
-//    }
 }

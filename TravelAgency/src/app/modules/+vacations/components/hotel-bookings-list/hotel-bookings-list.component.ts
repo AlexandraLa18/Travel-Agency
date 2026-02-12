@@ -16,7 +16,6 @@ export class HotelBookingsListComponent {
   @Input() checkout!: string;
 
   readonly hotelBookings$ = this._hotelFacade.hotelBookings$;
-  // readonly apiFlightsDataNotFound$ = this._vacationsFacade.apiHotelsDataNotFound$;
 
   constructor(
     private modalController: ModalController,

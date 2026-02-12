@@ -132,7 +132,6 @@ public class ObjectExpirationService {
                 if (checkinDate.isEqual(twoDaysFromNow)) {
                     User user = vacation.getUser();
                     if (user != null) {
-//                        String email = "lambaalexandra1804@yahoo.com";
                         String email = user.getEmail();
                         String subject = "Your Vacation is Coming Up!";
                         String text = String.format("Hi,\n\nThis is a reminder that your vacation is scheduled to start on %s. Please make sure to prepare accordingly.\n\nBest regards,\nE-Travel Team", vacation.getHotel().getCheckin());
@@ -150,7 +149,6 @@ public class ObjectExpirationService {
                 if (checkinDate.isEqual(twoDaysFromNow)) {
                     User user = simpleVacation.getUser();
                     if (user != null) {
-//                        String email = "lambaalexandra1804@yahoo.com";
                         String email = user.getEmail();
                         String subject = "Your Vacation is Coming Up!";
                         String text = String.format("Hi,\n\nThis is a reminder that your vacation is scheduled to start on %s. Please make sure to prepare accordingly.\n\nBest regards,\nE-Travel Team", simpleVacation.getHotel().getCheckin());

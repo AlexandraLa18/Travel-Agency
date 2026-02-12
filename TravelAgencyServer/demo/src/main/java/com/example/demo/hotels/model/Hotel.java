@@ -24,7 +24,7 @@ public class Hotel {
         private String stars;
         private String distance;
         private String relevantPoiDistance;
-        private String price;//per night
+        private String price; // per night
         private String entityId;
         @Column(length = 3000)
         private String description;

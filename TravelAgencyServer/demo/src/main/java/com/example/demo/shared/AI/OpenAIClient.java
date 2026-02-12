@@ -3,6 +3,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import okhttp3.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
+
 public class OpenAIClient {
     private static final String API_KEY = "";
     private static final String BASE_URL = "https://api.openai.com/v1/chat/completions";

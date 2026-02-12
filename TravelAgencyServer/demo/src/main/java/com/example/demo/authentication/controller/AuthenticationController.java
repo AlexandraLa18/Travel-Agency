@@ -44,7 +44,6 @@ public class AuthenticationController {
             authenticationResponseDTO.setToken(jwtToken);
             return new ResponseEntity<>(authenticationResponseDTO, HttpStatus.OK);
         } else {
-//            return new ResponseEntity<>("User not found or credentials are incorrect.", HttpStatus.NOT_FOUND);
             return ResponseEntity.badRequest().body(Collections.singletonMap("message", "User not found or credentials are incorrect."));
         }
     }

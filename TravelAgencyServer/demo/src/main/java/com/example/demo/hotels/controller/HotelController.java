@@ -48,7 +48,6 @@ public class HotelController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Hotel> getHotelById(@PathVariable Long id) {
-        //maybe you ll need to create a new func to get by id (with destinations fetched)
         return hotelServiceIF.getHotelById(id)
                 .map(hotelDTO -> new ResponseEntity<>(hotelDTO, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));    }

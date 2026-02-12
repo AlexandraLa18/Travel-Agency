@@ -178,7 +178,7 @@ public class SimpleVacationServiceImpl implements SimpleVacationServiceIF {
         if (vacation.getHotel() != null) {
             vacation.getHotel().setUsed(false);
         }
-        simpleVacationRepository.save(vacation); // Save the changes
+        simpleVacationRepository.save(vacation);
 
         if ("Created by user".equals(vacation.getType())) {
             simpleVacationRepository.delete(vacation);
