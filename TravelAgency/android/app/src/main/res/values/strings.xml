@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">TravelAgency</string>
+    <string name="title_activity_main">TravelAgency</string>
+    <string name="package_name">io.ionic.starter</string>
+    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="server_client_id">344515759200-9a0nrpa6b4i6vdl9mn50ctg7j5p92rsv.apps.googleusercontent.com</string>
+</resources>

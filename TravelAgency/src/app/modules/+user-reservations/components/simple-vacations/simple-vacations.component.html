@@ -1,0 +1,31 @@
+<ion-header>
+  <div class="title">
+    <span>My Vacations (Hotel)</span>
+  </div>
+
+  <ion-buttons slot="end" class="align-right">
+    <ion-button (click)="dismiss()">Close</ion-button>
+  </ion-buttons>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="container">
+    <ng-container *ngIf="simpleVacations$ | async as options">
+      <ion-list *ngIf="options.length > 0; else noVacations">
+        <ng-container *ngFor="let option of options">
+          <app-simple-vacation-card
+            [simpleVacation]="option"
+            [isSelectButtonVisible]="true"
+            [buttonLabel]="'CANCEL'"
+            (openConfirmationModal)="openConfirmationModal($event)"
+          ></app-simple-vacation-card>
+        </ng-container>
+      </ion-list>
+    </ng-container>
+    <ng-template #noVacations>
+      <div class="div-spinner">
+        <p>No vacation packages for now.</p>
+      </div>
+    </ng-template>
+  </div>
+
+</ion-content>

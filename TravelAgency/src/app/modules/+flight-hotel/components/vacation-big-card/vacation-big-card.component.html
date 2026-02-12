@@ -1,0 +1,119 @@
+<ion-header>
+  <div class="title">
+    <span>{{ vacation.title ? vacation.title : 'Vacation to ' + vacation.hotel.destination?.city }}</span>
+  </div>
+  <ion-buttons slot="end" class="align-right">
+    <ion-button (click)="dismiss()">Close</ion-button>
+  </ion-buttons>
+  <div class="text" *ngIf="vacation.title !== '' && vacation.description !== ''">
+    <p>{{ vacation.description }}</p>
+  </div>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="period">
+    <div class="period-container">
+      <p class="bold">Depart: </p>
+      <hr class="grey">
+      <p>{{ vacation.flight?.fromDestination?.city + ", " + vacation.flight?.fromDestination?.country }}</p>
+      <hr class="grey">
+      <p>{{ vacation.hotel.checkin | date : "MMM d, y" }}</p>
+    </div>
+    <hr>
+    <div class="period-container">
+      <p class="bold">Return: </p>
+      <hr class="grey">
+      <p>{{ vacation.flight?.toDestination?.city + ", " + vacation.flight?.toDestination?.country }}</p>
+      <hr class="grey">
+      <p>{{ vacation.hotel.checkout | date : "MMM d, y" }}</p>
+    </div>
+  </div>
+  <div class="facilities-container">
+    <p class="facilities-title">{{ vacation.hotel.name }}</p>
+    <div class="stars-container">
+      <ion-icon
+        *ngFor="let star of vacation.hotel.stars! | starArray"
+        name="star"
+      ></ion-icon>
+    </div>
+    <div class="header-container no-margin text-grey">
+      <ion-icon name="pin"></ion-icon>
+      <span>{{ vacation.hotel.address }}</span>
+    </div>
+    <div class="facilities">
+      <div *ngIf="vacation.hotel.hasRestaurant" class="facility">
+        <ion-icon name="restaurant"></ion-icon>
+        <p>Restaurant</p>
+      </div>
+      <div *ngIf="vacation.hotel.hasRoomService" class="facility">
+        <ion-icon name="call"></ion-icon>
+        <p>Room Service</p>
+      </div>
+      <div *ngIf="vacation.hotel.noSmoking" class="facility">
+        <ion-icon name="logo-no-smoking"></ion-icon>
+        <p>No smooking</p>
+      </div>
+      <div *ngIf="vacation.hotel.hasWifi" class="facility">
+        <ion-icon name="wifi"></ion-icon>
+        <p>Wi-fi</p>
+      </div>
+      <div *ngIf="vacation.hotel.hasBar" class="facility">
+        <ion-icon name="wine"></ion-icon>
+        <p>Bar</p>
+      </div>
+      <div *ngIf="vacation.hotel.petAllow" class="facility">
+        <ion-icon name="paw"></ion-icon>
+        <p>Pets allowed</p>
+      </div>
+      <div *ngIf="vacation.hotel.adults === 2" class="facility">
+        <ion-icon name="people"></ion-icon>
+        <p>2 Adults</p>
+      </div>
+      <div *ngIf="vacation.hotel.adults === 1" class="facility">
+        <ion-icon name="person"></ion-icon>
+        <p>1 Adult</p>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="header-container margin-left distance">
+        <span>{{ vacation.hotel.distance }}</span>
+      </div>
+      <div class="stars-container-2 price">
+        <button (click)="showHotelDescription()">See description</button>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="rooms-adults">
+        <span>{{ vacation.hotel.rooms + ' Rooms' }}</span>
+        <span>{{ vacation.hotel.adults + ' Adults' }}</span>
+      </div>
+      <div class="rooms-adults">
+        <div class="stars-container-2 price">
+          <p>{{ vacation.hotel.price }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-flight-details-view
+    [flight]="vacation.flight!"
+    [isSelectButtonVisible]="false"
+  ></app-flight-details-view>
+
+  <div class="gallery">
+    <ion-card
+      class="gallery-item"
+      [ngStyle]="{ 'background-image': 'url(' + vacation.hotel.image1 + ')' }"
+    >
+    </ion-card>
+    <ion-card
+      class="gallery-item"
+      [ngStyle]="{ 'background-image': 'url(' + vacation.hotel.image2 + ')' }"
+    >
+    </ion-card>
+    <ion-card
+      class="gallery-item"
+      [ngStyle]="{ 'background-image': 'url(' + vacation.hotel.image3 + ')' }"
+    >
+    </ion-card>
+  </div>
+</ion-content>

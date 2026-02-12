@@ -1,0 +1,89 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <div class="toolbar">
+        <div class="destination">
+          <ion-icon name="airplane"></ion-icon>
+          <span>{{ title }}</span>
+        </div>
+        <div *ngIf="byCity === false" class="toolbar">
+          <div class="period-container">
+            <div class="period">
+              <ion-icon name="calendar"></ion-icon>
+              <p>{{ checkin | date : "MMM d, y" }}</p>
+              <hr />
+              <p>{{ checkout | date : "MMM d, y" }}</p>
+            </div>
+          </div>
+          <div class="period-container">
+            <div class="period rooms-adults">
+              <ion-icon *ngIf="adults === 2" name="people"></ion-icon>
+              <ion-icon *ngIf="adults === 1" name="person"></ion-icon>
+              <p>{{ adults + " Adults" }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div *ngIf="byCity === true" class="container">
+    <!-- <div class="div-spinner">
+      <ion-spinner
+        *ngIf="flightsByCityLoading$ | async"
+        name="lines-sharp"
+      ></ion-spinner>
+    </div> -->
+    <ng-container *ngIf="flightsByCity$ | async as options">
+      <ion-list *ngIf="options.length > 0">
+        <app-flight-details-view
+          *ngFor="let option of options"
+          [flight]="option"
+          [isSelectButtonVisible]="true"
+          (openConfirmationModal)="openConfirmationModal($event)"
+        ></app-flight-details-view>
+      </ion-list>
+      <div *ngIf="flightsByCityDataNotFound$ | async" class="div-spinner">
+        <p>No flights found.</p>
+      </div>
+    </ng-container>
+  </div>
+
+  <div *ngIf="byCity === false" class="container">
+    <!-- <ng-container *ngIf="flightsByCityPeriodAdults$ | async as options">
+      <ion-list *ngIf="options.length > 0; else noFlights">
+        <ng-container *ngFor="let option of options">
+          <app-flight-details-view
+          [flight]="option"
+          [isSelectButtonVisible]="true"
+          (openConfirmationModal)="openConfirmationModal($event)"
+        ></app-flight-details-view>
+        </ng-container>
+      </ion-list>
+    </ng-container> -->
+    <ng-container *ngIf="flightsByCityPeriodAdults$ | async as options">
+      <ion-list *ngIf="options.length > 0">
+        <app-flight-details-view
+          *ngFor="let option of options"
+          [flight]="option"
+          [isSelectButtonVisible]="true"
+          (openConfirmationModal)="openConfirmationModal($event)"
+        ></app-flight-details-view>
+      </ion-list>
+      <div *ngIf="flightBookingsDataNotFound$ | async" class="div-spinner">
+        <p>
+          No flights have been added yet by our team, but you can still search and book your ideal flights directly through our search feature!
+        </p>
+        <button (click)="searchFlightsByCityPeriod()">Click here to look for flights available for this period.</button>
+      </div>
+    </ng-container>
+    <!-- <ng-template #noFlights>
+      <div class="div-spinner">
+      </div>
+    </ng-template> -->
+  </div>
+</ion-content>

@@ -1,0 +1,189 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="logo-header">
+      <ion-title>Hotels</ion-title>
+      <img class="logo" src="assets/images/logo4.png">
+      <ion-icon (click)="logout()" name="exit"></ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card class="table-card">
+    <app-table-wrapper
+    data-cy="hotels-table"
+      [total$]="total$"
+      [dataSource$]="hotelsList$"
+      [pageSize]="pageSize"
+      (pageChange)="pageChange($event)"
+      [tableFields]="tableFields"
+      (rowClick)="goToDetailsView($event)"
+      matSort
+    >
+      <ng-container toolbar>
+        <div class="table-toolbar-container">
+          <h2>{{ total$ | async }} {{ "Hotel Bookings" }}</h2>
+          <div class="action-buttons-container">
+            <ion-button id="open-hotels-modal" expand="block" fill="clear">
+              <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+            </ion-button>
+
+            <!-- <ion-button (click)="toggleFilter()" fill="clear">
+              <ion-icon slot="icon-only" name="options"></ion-icon>
+            </ion-button> -->
+          </div>
+        </div>
+        <ion-modal id="hotel-bookings" #modal trigger="open-hotels-modal">
+          <ng-template>
+            <ion-content>
+              <ion-toolbar>
+                <ion-title>Hotel Booking</ion-title>
+                <ion-buttons slot="end">
+                  <ion-button color="light" (click)="close(modal)"
+                    >Close</ion-button
+                  >
+                </ion-buttons>
+              </ion-toolbar>
+              <form [formGroup]="hotelBookingFormGroup">
+                <div class="popup-container">
+                  <ion-item>
+                    <ion-select
+                      formControlName="destination"
+                      aria-label="Destination"
+                      interface="popover"
+                      placeholder="Destination"
+                      class="select-class"
+                    >
+                      <ion-select-option
+                        *ngFor="let destination of destinations$ | async"
+                        [value]="destination"
+                      >
+                        {{ destination.city + ", " + destination.country }}
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-label>Checkin</ion-label>
+                    <ion-input
+                      formControlName="checkin"
+                      readonly
+                      id="date10"
+                      class="ion-text-end"
+                    ></ion-input>
+                    <ion-popover trigger="date10" size="cover">
+                      <ng-template>
+                        <ion-datetime
+                          presentation="date"
+                          formControlName="checkin"
+                          locale="en-EN"
+                          (ionChange)="updateCheckin()"
+                        ></ion-datetime>
+                      </ng-template>
+                    </ion-popover>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-label>Checkout</ion-label>
+                    <ion-input
+                      formControlName="checkout"
+                      readonly
+                      id="date11"
+                      class="ion-text-end"
+                    ></ion-input>
+                    <ion-popover trigger="date11" size="cover">
+                      <ng-template>
+                        <ion-datetime
+                          presentation="date"
+                          formControlName="checkout"
+                          locale="en-EN"
+                          (ionChange)="updateCheckout()"
+                        ></ion-datetime>
+                      </ng-template>
+                    </ion-popover>
+                  </ion-item>
+                                    
+                  <ion-item>
+                    <ion-input
+                      label="No. of rooms"
+                      type="number"
+                      formControlName="rooms"
+                    ></ion-input>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-input
+                      label="No. of adults"
+                      type="number"
+                      formControlName="adults"
+                    ></ion-input>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-input
+                      label="No. of results per page"
+                      type="number"
+                      formControlName="resultsPerPage"
+                    ></ion-input>
+                  </ion-item>
+                                    
+                  <ion-item>
+                    <ion-input
+                      label="Page"
+                      type="number"
+                      formControlName="page"
+                    ></ion-input>
+                  </ion-item>
+                  <ion-button class="search-btn" (click)="searchHotels()">
+                    <ion-icon name="search" slot="start"></ion-icon>
+                    Search
+                  </ion-button>
+                </div>
+              </form>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="table-action-buttons">
+          <div class="table-action-buttons delete-container">
+            <button mat-icon-button (click)="deleteHotel(element, $event)">
+              <mat-icon fontIcon="delete"></mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="destination">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header>
+            <b> Destination </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.destination.city + ", " + element.destination.country }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="relevantPoiDistance">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: '250px' }">
+          <div mat-sort-header>
+            <b> Relevant distance </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.relevantPoiDistance }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> Price </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.price }}
+        </td>
+      </ng-container>
+    </app-table-wrapper>
+  </ion-card>
+</ion-content>

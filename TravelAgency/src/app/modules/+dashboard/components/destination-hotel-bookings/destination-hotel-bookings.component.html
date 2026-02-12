@@ -1,0 +1,68 @@
+<ion-header>
+  <div class="title">
+    <span>{{ title + destinationName }}</span>
+  </div>
+  <div *ngIf="byCity === false" class="toolbar">
+    <div class="period-container">
+      <div class="period">
+        <ion-icon name="calendar"></ion-icon>
+        <p>{{ checkin | date : "MMM d, y" }}</p>
+        <hr />
+        <p>{{ checkout | date : "MMM d, y" }}</p>
+      </div>
+    </div>
+    <div class="period-container">
+      <div class="period rooms-adults">
+        <ion-icon *ngIf="adults === 2" name="people"></ion-icon>
+        <ion-icon *ngIf="adults === 1" name="person"></ion-icon>
+        <p>{{ adults + " Adults" }}</p>
+      </div>
+    </div>
+  </div>
+
+  <ion-buttons slot="end" class="align-right">
+    <ion-button (click)="dismiss()">Close</ion-button>
+  </ion-buttons>
+</ion-header>
+<ion-content class="ion-padding">
+  <div *ngIf="byCity === true" class="container">
+    <ng-container *ngIf="simpleVacationsByCity$ | async as options">
+      <ion-list *ngIf="options.length > 0; else noVacations">
+        <ng-container *ngFor="let option of options">
+          <app-simple-vacation-card
+            [simpleVacation]="option"
+            [isSelectButtonVisible]="true"
+            (openConfirmationModal)="openConfirmationModal($event)"
+          ></app-simple-vacation-card>
+        </ng-container>
+      </ion-list>
+    </ng-container>
+    <ng-template #noVacations>
+      <div class="div-spinner">
+        <p>No vacation packages are available for this city, but you can book a hotel.</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <div *ngIf="byCity === false" class="container">
+    <ng-container *ngIf="simpleVacationsByCityPeriodAdults$ | async as options">
+      <ion-list *ngIf="options.length > 0; else noVacations">
+        <ng-container *ngFor="let option of options">
+          <app-simple-vacation-card
+            [simpleVacation]="option"
+            [isSelectButtonVisible]="true"
+            (openConfirmationModal)="openConfirmationModal($event)"
+          ></app-simple-vacation-card>
+        </ng-container>
+      </ion-list>
+    </ng-container>
+    <ng-template #noVacations>
+      <div class="div-spinner">
+        <p>
+          No vacation packages are available for this city and period, but you can still book a hotel.
+        </p>
+        <button (click)="searchHotelsByCityPeriod()">Click here to search for hotels available for this period.</button>
+      </div>
+    </ng-template>
+  </div>
+</ion-content>

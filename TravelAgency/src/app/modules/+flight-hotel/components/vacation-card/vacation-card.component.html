@@ -1,0 +1,65 @@
+<ion-card
+  (click)="onCardClick()">
+  <ion-card-header [ngStyle]="{ 'background-image': 'url(' + vacation.hotel.image1 + ')' }">
+    <ion-card-title *ngIf="vacation.type !== 'Created by user'" class="box green-background">{{ vacation.type }}</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <div class="header-container">
+      <h1>{{ vacation.hotel.name }}</h1>
+      <div class="stars-container">
+        <p>{{ vacation.hotel.stars }}</p>
+        <ion-icon name="star"></ion-icon>
+      </div>
+    </div>
+    <div class="header-container no-margin">
+      <span>{{ vacation.hotel.address }}</span>
+      <span>{{ vacation.hotel.distance }}</span>
+    </div>
+    <div class="header-container period">
+      <ion-card class="date">{{ vacation.hotel.checkin }}</ion-card>
+      <hr>
+      <ion-card class="date">{{ vacation.hotel.checkout }}</ion-card>
+    </div>
+    <div class="subcontainer">
+      <ion-icon name="airplane"></ion-icon>
+      <p>Direct flights included</p>
+    </div>
+    <div class="subcontainer">
+      <ion-icon name="checkmark"></ion-icon>
+      <p>Free cancellation</p>
+    </div>
+    <div class="bottom-container">
+      <div class="icons">
+        <div *ngIf="vacation.hotel.hasRestaurant"><ion-icon name="restaurant"></ion-icon></div>
+        <div *ngIf="vacation.hotel.hasRoomService"><ion-icon name="call"></ion-icon></div>
+        <div *ngIf="vacation.hotel.noSmoking"><ion-icon name="logo-no-smoking"></ion-icon></div>
+        <div *ngIf="vacation.hotel.hasWifi"><ion-icon name="wifi"></ion-icon></div>
+        <div *ngIf="vacation.hotel.hasBar"><ion-icon name="wine"></ion-icon></div>
+        <div *ngIf="vacation.hotel.petAllow"><ion-icon name="paw"></ion-icon></div>
+        <div *ngIf="vacation.hotel.adults === 2">
+          <ion-icon name="people"></ion-icon>
+        </div>
+        <div *ngIf="vacation.hotel.adults === 1">
+          <ion-icon name="person"></ion-icon>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="rooms-adults">
+          <span>{{ vacation.hotel.rooms + ' Rooms' }}</span>
+          <span>{{ vacation.hotel.adults + ' Adults' }}</span>
+        </div>
+        <div class="rooms-adults">
+          <div class="stars-container price">
+            <p>{{ vacation.totalPrice }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="select-btn">
+      <ion-button
+      *ngIf="isSelectButtonVisible"
+      (click)="openConfirmationModalFunction($event)">{{buttonLabel}}</ion-button>
+    </div>
+  </ion-card-content>
+</ion-card>

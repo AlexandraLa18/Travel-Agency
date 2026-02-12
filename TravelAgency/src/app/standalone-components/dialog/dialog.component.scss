@@ -1,0 +1,24 @@
+.dialog-header {
+  width: 100%;
+  background-color: rgb(66, 140, 255);
+  color: #fff;
+  border-bottom: 1px solid #70a6f0;
+  padding: 8px;
+
+  h2 {
+    color: #fff;
+  }
+}
+
+.dialog-content-container {
+  min-width: 250px;
+  height: auto;
+}
+
+mat-dialog-content,
+mat-dialog-actions {
+  background-color: var(
+    --ion-item-background,
+    var(--ion-background-color, #fff)
+  );
+}

@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <div class="toolbar">
+        <div class="destination">
+          <!-- <ion-icon name="bed"></ion-icon> -->
+          <span>From {{ from }}  to  {{ to }}</span>
+        </div>
+        <div class="period-container">
+          <div class="period">
+            <ion-icon name="calendar"></ion-icon>
+            <p>{{ checkin | date : "MMM d, y" }}</p>
+            <hr />
+            <p>{{ checkout | date : "MMM d, y" }}</p>
+          </div>
+        </div>
+        <div class="period-container">
+          <div class="period rooms-adults">
+            <ion-icon *ngIf="adults === 2" name="people"></ion-icon>
+            <ion-icon *ngIf="adults === 1" name="person"></ion-icon>
+            <p>{{ rooms + " Rooms, " }}</p>
+            <p>{{ adults + " Adults" }}</p>
+          </div>
+        </div>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Close</ion-button>
+      <ion-button (click)="saveVacationByUser()">Save</ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="popup-container cards">
+    <ion-button
+      *ngIf="(hotelIsSelected$ | async) === false"
+      class="search-btn"
+      (click)="searchHotels()"
+    >
+      <ion-icon name="search" slot="start"></ion-icon>
+      Search Hotel
+    </ion-button>
+
+    <ng-container *ngIf="selectedHotelBooking$ | async as selectedHotelBooking">
+      <app-hotel-details-view
+        *ngIf="hotelIsSelected$ | async"
+        [hotel]="selectedHotelBooking"
+        [isSelectButtonVisible]="false"
+      ></app-hotel-details-view>
+    </ng-container>
+
+    <ion-button
+      *ngIf="(flightIsSelected$ | async) === false"
+      class="search-btn"
+      (click)="searchFlights()"
+    >
+      <ion-icon name="search" slot="start"></ion-icon>
+      Search Flight
+    </ion-button>
+
+    <ng-container
+      *ngIf="selectedFlightBooking$ | async as selectedFlightBooking"
+    >
+      <app-flight-details-view
+        class="flight-card"
+        *ngIf="flightIsSelected$ | async"
+        [flight]="selectedFlightBooking"
+        [isSelectButtonVisible]="false"
+      ></app-flight-details-view>
+    </ng-container>
+  </div>
+</ion-content>

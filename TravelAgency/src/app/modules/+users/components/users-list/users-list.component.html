@@ -1,0 +1,94 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="logo-header">
+      <ion-title>Users</ion-title>
+      <img class="logo" src="assets/images/logo4.png">
+      <ion-icon (click)="logout()" name="exit"></ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card class="table-card">
+    <app-table-wrapper
+    data-cy="users-table"
+      [total$]="total$"
+      [dataSource$]="usersList$"
+      [pageSize]="pageSize"
+      (pageChange)="pageChange($event)"
+      [tableFields]="tableFields"
+      matSort
+    >
+      <ng-container toolbar>
+        <div class="table-toolbar-container">
+          <h2>{{ total$ | async }} {{ "Users" }}</h2>
+          <div class="action-buttons-container">
+            <ion-button id="open-users-modal" expand="block" fill="clear">
+              <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+            </ion-button>
+
+            <!-- <ion-button (click)="toggleFilter()" fill="clear">
+              <ion-icon slot="icon-only" name="options"></ion-icon>
+            </ion-button> -->
+          </div>
+        </div>
+        <ion-modal id="users" #modal trigger="open-users-modal">
+          <ng-template>
+            <ion-content>
+              <ion-toolbar>
+                <ion-title>Add User</ion-title>
+                <ion-buttons slot="end">
+                  <ion-button color="light" (click)="close(modal)"
+                    >Close</ion-button
+                  >
+                </ion-buttons>
+                <ion-buttons slot="end">
+                  <ion-button color="light" (click)="saveUser(modal)"
+                    >Save</ion-button
+                  >
+                </ion-buttons>
+              </ion-toolbar>
+              <form  appOnFormSubmit [formGroup]="usersFormGroup">
+                <div class="popup-container">
+                  <ion-item >
+                    <ion-input formControlName="email" type="email" label="Email"></ion-input>
+                  </ion-item>
+                  <ion-item >
+                    <ion-input formControlName="password" type="text" label="Password"></ion-input>
+                  </ion-item>
+                  <ion-item>
+                    <ion-select
+                      formControlName="role"
+                      aria-label="Role"
+                      interface="popover"
+                      placeholder="Role"
+                      value="USER"
+                    >
+                      <ion-select-option value="USER"
+                        >USER</ion-select-option
+                      >
+                      <ion-select-option value="ADMIN"
+                        >ADMIN</ion-select-option
+                      >
+                      >
+                    </ion-select>
+                  </ion-item>
+                </div>
+              </form>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="table-action-buttons">
+          <div class="table-action-buttons delete-container">
+            <button mat-icon-button (click)="deleteUser(element, $event)">
+              <mat-icon fontIcon="delete"></mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+    </app-table-wrapper>
+  </ion-card>
+</ion-content>

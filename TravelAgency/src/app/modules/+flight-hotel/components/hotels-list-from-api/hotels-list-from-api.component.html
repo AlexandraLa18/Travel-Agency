@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <div class="toolbar">
+        <div class="destination">
+          <ion-icon name="bed"></ion-icon>
+          <span>{{ title }}</span>
+        </div>
+        <div class="period-container">
+          <div class="period">
+            <ion-icon name="calendar"></ion-icon>
+            <p>{{ checkin | date : "MMM d, y" }}</p>
+            <hr />
+            <p>{{ checkout | date : "MMM d, y" }}</p>
+          </div>
+        </div>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="container">
+    <div class="div-spinner">
+      <ion-spinner
+        *ngIf="apiHotelsLoading$ | async"
+        name="lines-sharp"
+      ></ion-spinner>
+    </div>
+    <ng-container *ngIf="apiHotels$ | async as options; else noHotels">
+      <ion-list *ngIf="options.length > 0">
+        <ng-container *ngFor="let option of options">
+          <app-hotel-details-view
+            *ngIf="option.price"
+            [hotel]="option"
+            [isSelectButtonVisible]="true"
+            (openConfirmationModal)="openConfirmationModal($event)"
+          ></app-hotel-details-view>
+        </ng-container>
+      </ion-list>
+  
+    </ng-container>
+    <ng-template #noHotels>
+      <div class="div-spinner">
+        <p>No hotel bookings available. Please add a Hotel Booking and then come back.</p>
+      </div>
+    </ng-template>
+  </div>
+</ion-content>

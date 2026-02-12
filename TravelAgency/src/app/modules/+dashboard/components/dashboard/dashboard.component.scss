@@ -1,0 +1,109 @@
+ion-content {
+  overflow-y: auto;
+
+  ion-header {
+    background-color: #003b95;
+    height: 25%;
+
+    .title {
+      font-family: "Blue Sans", BlinkMacSystemFont, -apple-system, Segoe UI,
+        Roboto, Helvetica, Arial, sans-serif;
+      padding: 20px;
+      span {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 800;
+        line-height: 40px;
+      }
+
+      p {
+        margin: 4px;
+      }
+    }
+  }
+  .div-form {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
+  form {
+    width: 80%;
+    background-color: #ffb700; //yellow
+    border-radius: 10px;
+  }
+  ion-list {
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 5px solid black;
+    border-radius: 10px;
+  }
+  ion-item {
+    margin: 5px;
+  }
+  ion-item::part(native) {
+    background-color: #fff;
+    color: black;
+  }
+  ion-popover {
+    --width: 270px !important;
+  }
+
+  .ion-text-end {
+    text-align: center !important;
+  }
+  .search-btn-div {
+    display: flex;
+    justify-content: center;
+
+    ion-button {
+      width: 95%;
+    }
+  }
+
+  .cards {
+    padding: 20px;
+
+    .subtitle {
+      font-family: "Blue Sans", BlinkMacSystemFont, -apple-system, Segoe UI,
+        Roboto, Helvetica, Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      line-height: 40px;
+    }
+
+    span {
+      margin: 0;
+      font-size: 10px;
+      font-weight: 400;
+    }
+  }
+
+  ion-card {
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 200px;
+  }
+  ion-card-title {
+    color: #fff;
+    font-weight: 800;
+  }
+}
+
+.native-wrapper.sc-ion-input-md {
+  text-align: center;
+}
+
+.chatbot-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  p {
+    text-align: start;
+    font-size: 15px;
+  }
+
+}

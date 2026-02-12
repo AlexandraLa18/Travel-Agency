@@ -1,0 +1,75 @@
+<ion-content>
+  <div class="error" *ngIf="error()?.message as message">{{error()?.message }}</div>
+  <div class="card-container" *ngIf="screen === 'signin'">
+    <ion-card>
+      <ion-col>
+        <ion-row size-md="3" size="12" class="ion-blue-bkg">
+          <h1>Welcome</h1>
+          <p class="para">Sign in to continue!</p>
+
+          <form [formGroup]="loginFormData" appOnFormSubmit (submitForm)="login()">
+            <ion-item lines="none" class="ion-item">
+              <fieldset class="input-item">
+                <legend>Email<span>*</span></legend> 
+                <ion-input data-cy="email" formControlName="email" type="email" placeholder="Enter your email"></ion-input>
+              </fieldset>
+            </ion-item>
+            <ion-item lines="none" class="ion-item">
+              <fieldset class="input-item">
+                <legend>Password<span>*</span></legend> 
+                <div class="password-field">
+                  <ion-input data-cy="password" formControlName="password" [type]="showPassword1 ? 'text' : 'password'" placeholder="Password"></ion-input>
+                  <ion-icon name="{{ showPassword1 ? 'eye' : 'eye-off' }}" slot="end" (click)="togglePasswordVisibility1()"></ion-icon>
+                </div>
+              </fieldset>
+            </ion-item>
+            <ion-button data-cy="submit" class="login-button" type="submit" expand="block">Login</ion-button>
+          </form>
+
+          <p class="signup-text">I'm a new user&nbsp;<a (click)="change('signup')">Sign Up?</a></p>
+        </ion-row>
+      </ion-col>
+    </ion-card>
+  </div>
+
+  <div class="card-container" *ngIf="screen === 'signup'">
+    <ion-card>
+      <ion-col>
+        <ion-row size-md="3" size="12" class="ion-blue-bkg">
+          <h1 class="create-title">Create Account</h1>
+
+          <form [formGroup]="signupFormData" appOnFormSubmit (submitForm)="register()">
+            <ion-item lines="none" class="ion-item">
+              <fieldset class="input-item">
+                <legend>Email<span>*</span></legend> 
+                <ion-input data-cy="email" formControlName="email" type="email" placeholder="Enter your email"></ion-input>
+              </fieldset>
+            </ion-item>
+            <ion-item lines="none" class="ion-item">
+              <fieldset class="input-item">
+                <legend>Create password<span>*</span></legend> 
+                <div class="password-field">
+                  <ion-input data-cy="password" formControlName="password" [type]="showPassword2 ? 'text' : 'password'" placeholder="Password"></ion-input>
+                  <ion-icon name="{{ showPassword2 ? 'eye' : 'eye-off' }}" slot="end" (click)="togglePasswordVisibility2()"></ion-icon>
+                </div>
+              </fieldset>
+            </ion-item>
+            <ion-item lines="none" class="ion-item">
+              <fieldset  class="input-item">
+                <legend>Confirm password<span>*</span></legend>
+                <div class="password-field">
+                  <ion-input data-cy="confirmPassword" formControlName="confirmPassword" [type]="showPassword3 ? 'text' : 'password'" placeholder="Confirm password"></ion-input>
+                  <ion-icon name="{{ showPassword3 ? 'eye' : 'eye-off' }}" slot="end" (click)="togglePasswordVisibility3()"></ion-icon>
+                </div>
+              </fieldset>
+            </ion-item>
+
+            <ion-button data-cy="submit" class="login-button" type="submit" expand="block">Sign Up</ion-button>
+          </form>
+
+          <p class="signup-text">I'm already a member&nbsp;<a (click)="change('signin')">Sign In?</a></p>
+        </ion-row>
+      </ion-col>
+    </ion-card>
+  </div>
+</ion-content>

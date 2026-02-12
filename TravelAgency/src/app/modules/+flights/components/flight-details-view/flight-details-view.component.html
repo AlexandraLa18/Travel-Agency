@@ -1,0 +1,71 @@
+<ion-card>
+  <div class="container">
+    <div class="info">
+      <div class="header">
+        <div class="mini-header">
+          <p>{{ flight.departureOrigin | date : "MMM d, y" }}</p>
+          <div><span>•</span></div>
+          <p>Outbound</p>
+        </div>
+        <ion-button [disabled]="isDisabled" *ngIf="isSelectButtonVisible" (click)="openConfirmationModalFunction()"
+          >{{buttonLabel}}</ion-button
+        >
+      </div>
+      <div>
+        <div class="second-mini-header">
+          <span>{{ flight.originDisplayCode }}</span>
+          <div><hr /></div>
+          <div class="airline-logo">
+            <img [src]="flight.companyLogoDepart" alt="Airline Logo" />
+          </div>
+          <div><hr /></div>
+          <span>{{ flight.destinationDisplayCode }}</span>
+        </div>
+        <div class="second-mini-header">
+          <p>{{ flight.departureOrigin | date : "h:mm a" }}</p>
+          <p>{{ flight.durationInMinutesDepart + " min" }}</p>
+          <p>{{ flight.arrivalOrigin | date : "h:mm a" }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="price"></div>
+  </div>
+  <div class="container">
+    <div class="info">
+      <div class="mini-header">
+        <p>{{ flight.departureDestination | date : "MMM d, y" }}</p>
+        <div><span>•</span></div>
+        <p>Inbound</p>
+      </div>
+      <div>
+        <div class="second-mini-header">
+          <span>{{ flight.destinationDisplayCode }}</span>
+          <div><hr /></div>
+          <div class="airline-logo">
+            <img [src]="flight.companyLogoReturn" alt="Airline Logo" />
+          </div>
+          <div><hr /></div>
+          <span>{{ flight.originDisplayCode }}</span>
+        </div>
+        <div class="second-mini-header">
+          <p>{{ flight.departureDestination | date : "h:mm a" }}</p>
+          <p>{{ flight.durationInMinutesReturn + " min" }}</p>
+          <p>{{ flight.arrivalDestination | date : "h:mm a" }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <div class="icons">
+        <div><ion-icon name="briefcase"></ion-icon></div>
+        <div><ion-icon name="logo-rss"></ion-icon></div>
+        <div *ngIf="flight.noPassengers === 2">
+          <ion-icon name="people"></ion-icon>
+        </div>
+        <div *ngIf="flight.noPassengers === 1">
+          <ion-icon name="person"></ion-icon>
+        </div>
+      </div>
+      <span class="price">{{ flight.price }}</span>
+    </div>
+  </div>
+</ion-card>

@@ -1,0 +1,40 @@
+ion-content {
+  overflow-y: auto;
+
+  ion-header {
+    background-color: #003b95;
+
+    .title {
+      font-family: "Blue Sans", BlinkMacSystemFont, -apple-system, Segoe UI,
+        Roboto, Helvetica, Arial, sans-serif;
+      padding: 20px;
+      span {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 800;
+        line-height: 40px;
+      }
+
+      p {
+        margin: 4px;
+      }
+    }
+  }
+  .div-form {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
+
+  ion-card {
+    border-radius: 10px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 200px;
+  }
+  ion-card-title {
+    color: #fff;
+    font-weight: 800;
+  }
+}

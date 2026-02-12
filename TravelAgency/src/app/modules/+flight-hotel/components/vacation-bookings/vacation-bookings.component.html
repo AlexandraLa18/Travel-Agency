@@ -1,0 +1,68 @@
+<ion-header>
+  <div class="title">
+    <span>{{ title + to }}</span>
+  </div>
+  <div *ngIf="byCity === false" class="toolbar">
+    <div class="period-container">
+      <div class="period">
+        <ion-icon name="calendar"></ion-icon>
+        <p>{{ checkin | date : "MMM d, y" }}</p>
+        <hr />
+        <p>{{ checkout | date : "MMM d, y" }}</p>
+      </div>
+    </div>
+    <div class="period-container">
+      <div class="period rooms-adults">
+        <ion-icon *ngIf="adults === 2" name="people"></ion-icon>
+        <ion-icon *ngIf="adults === 1" name="person"></ion-icon>
+        <p>{{ adults + " Adults" }}</p>
+      </div>
+    </div>
+  </div>
+
+  <ion-buttons slot="end" class="align-right">
+    <ion-button (click)="dismiss()">Close</ion-button>
+  </ion-buttons>
+</ion-header>
+<ion-content class="ion-padding">
+  <ng-container *ngIf="byCity === true">
+    <ng-container *ngIf="vacationsByCity$ | async as options">
+      <ion-list *ngIf="options.length > 0; else noVacations">
+        <ng-container *ngFor="let option of options">
+          <app-vacation-card
+            [vacation]="option"
+            [isSelectButtonVisible]="true"
+            (openConfirmationModal)="openConfirmationModal($event)"
+          ></app-vacation-card>
+        </ng-container>
+      </ion-list>
+    </ng-container>
+    <ng-template #noVacations>
+      <div class="div-spinner">
+        <p>No vacations available for this city. You can create your own.</p>
+      </div>
+    </ng-template>
+  </ng-container>
+
+  <div *ngIf="byCity === false" class="container">
+    <ng-container *ngIf="vacationsByCityPeriodAdults$ | async as options">
+      <ion-list *ngIf="options.length > 0; else noVacations">
+        <ng-container *ngFor="let option of options">
+          <app-vacation-card
+          [vacation]="option"
+          [isSelectButtonVisible]="true"
+          (openConfirmationModal)="openConfirmationModal($event)"
+        ></app-vacation-card>
+        </ng-container>
+      </ion-list>
+    </ng-container>
+    <ng-template #noVacations>
+      <div class="div-spinner">
+        <p>
+          No vacations available in the place selected for this period, but you can create your own.
+        </p>
+        <button (click)="createVacationByUser()">Click here to create your dream vacation.</button>
+      </div>
+    </ng-template>
+  </div>
+</ion-content>

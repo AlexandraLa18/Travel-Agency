@@ -1,0 +1,149 @@
+<ion-content>
+  <ion-header>
+    <div class="logo-header align-right">
+      <img class="logo" src="assets/images/logo4.png" />
+      <ion-icon (click)="logout()" name="exit"></ion-icon>
+    </div>
+    <div class="title">
+      <span>Your Vacation is Just a Click Away!</span>
+      <p>Book Flight + Hotel</p>
+    </div>
+  </ion-header>
+
+  <div class="div-form">
+    <form [formGroup]="flightHotelFormGroup">
+      <ion-item class="ionitem" fill="outline">
+        <ion-input
+        data-cy="from"
+          formControlName="from"
+          (ionFocus)="handleFocus()"
+          (ionBlur)="handleBlur()"
+          placeholder="From"
+        ></ion-input>
+        <ion-button slot="end" fill="clear">
+          <ion-icon name="send-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ng-container
+        *ngIf="isInputFocused && (filteredDestinations$ | async) as options"
+      >
+        <ion-list *ngIf="options.length > 0">
+          <ion-item
+            *ngFor="let option of options"
+            (click)="selectOption(option)"
+          >
+            {{ option.city + ", " + option.country }}
+          </ion-item>
+        </ion-list>
+      </ng-container>
+
+      <ion-item class="ionitem" fill="outline">
+        <ion-input
+        data-cy="toDest"
+          formControlName="to"
+          (ionFocus)="handleFocus1()"
+          (ionBlur)="handleBlur1()"
+          placeholder="To"
+        ></ion-input>
+        <ion-button slot="end" fill="clear">
+          <ion-icon name="send-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ng-container
+        *ngIf="isInputFocused1 && (filteredDestinations1$ | async) as options"
+      >
+        <ion-list *ngIf="options.length > 0">
+          <ion-item
+            *ngFor="let option of options"
+            (click)="selectOption1(option)"
+          >
+            {{ option.city + ", " + option.country }}
+          </ion-item>
+        </ion-list>
+      </ng-container>
+
+      <ion-item class="ionitem">
+        <ion-label>Checkin</ion-label>
+        <ion-input
+        data-cy="checkin"
+          formControlName="checkin"
+          readonly
+          id="date3"
+          class="ion-text-end"
+          aria-label="Checkin Date"
+        ></ion-input>
+        <ion-popover trigger="date3" size="cover">
+          <ng-template>
+            <ion-datetime
+              presentation="date"
+              formControlName="checkin"
+              locale="en-EN"
+              (ionChange)="updateCheckin()"
+            ></ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </ion-item>
+      
+      <ion-item class="ionitem">
+        <ion-label>Checkout</ion-label>
+        <ion-input
+        data-cy="checkout"
+          formControlName="checkout"
+          readonly
+          id="date4"
+          class="ion-text-end"
+          aria-label="Checkout Date"
+        ></ion-input>
+        <ion-popover trigger="date4" size="cover">
+          <ng-template>
+            <ion-datetime
+              presentation="date"
+              formControlName="checkout"
+              locale="en-EN"
+              (ionChange)="updateCheckout()"
+            ></ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </ion-item>
+
+      <ion-item class="ionitem" fill="outline">
+        <ion-input
+          label="No. of adults"
+          type="number"
+          formControlName="adults"
+        ></ion-input>
+      </ion-item>
+
+      <div class="search-btn-div">
+        <ion-button data-cy="searchComplex" class="search-btn" (click)="searchVacations()">
+          <ion-icon name="search" slot="start"></ion-icon>
+          Search
+        </ion-button>
+      </div>
+    </form>
+  </div>
+  <div class="cards">
+    <div class="subtitle">Popular destinations</div>
+    <span>The World's Most Popular Destinations</span>
+    <div>
+      <ng-container *ngIf="worldDestinations$ | async as options">
+        <ng-container *ngFor="let option of options">
+          <ion-card
+            (click)="onCardClick(option)"
+            [ngStyle]="{ 'background-image': 'url(' + option.imageUrl + ')' }"
+          >
+            <ion-card-header>
+              <ion-card-title>{{
+                option.city + ", " + option.country
+              }}</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="chatbot-container">
+    <p>Can't decide on a destination or the best time to travel according to your preferences? Let us help you find the perfect getaway tailored just for you! Try asking our chatbot for personalized travel advice.</p>
+    <ion-button (click)="chatbotClick()">CHATBOT</ion-button>
+  </div>
+</ion-content>

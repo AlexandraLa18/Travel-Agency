@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <div class="toolbar">
+        <span>Chatbot</span>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-card class="container">
+  <div class="response" *ngIf="!isLoading">
+    <div>
+      <ion-icon name="aperture"></ion-icon>
+    </div>
+    <p>{{ chatbotResponse }}</p>
+  </div>
+
+  <div class="spinner" *ngIf="isLoading">
+    <ion-spinner name="circles"></ion-spinner>
+  </div>
+  <ion-item lines="none" class="ion-item">
+    <fieldset class="input-item">
+      <ion-input
+      data-cy="ask"
+        type="text"
+        placeholder="Ask something..."
+        [(ngModel)]="userMessage"
+      ></ion-input>
+      <ion-icon data-cy=send name="send" (click)="sendMessage()"></ion-icon>
+    </fieldset>
+  </ion-item>
+</ion-card>

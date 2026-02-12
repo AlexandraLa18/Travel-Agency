@@ -1,0 +1,61 @@
+<ion-card>
+  <div>
+    <div class="header-container">
+      <h3>{{ hotel.name }}</h3>
+      <div class="stars-container">
+        <p>{{ hotel.stars }}</p>
+        <ion-icon name="star"></ion-icon>
+      </div>
+    </div>
+    <div class="header-container">
+      <span>{{ hotel.address }}</span>
+      <span>{{ hotel.distance }}</span>
+    </div>
+    <div class="header-container period">
+      <ion-card>{{ hotel.checkin }}</ion-card>
+      <hr>
+      <ion-card>{{ hotel.checkout }}</ion-card>
+    </div>
+    <div class="images-container">
+      <img [src]="hotel.image1">
+      <img [src]="hotel.image2">
+      <img [src]="hotel.image3">
+    </div>
+    <div class="notice">
+      <span>{{ hotel.noticeFromTheHotel }}</span>
+    </div>
+    <div class="bottom-container">
+      <div class="icons">
+        <div *ngIf="hotel.hasRestaurant"><ion-icon name="restaurant"></ion-icon></div>
+        <div *ngIf="hotel.hasRoomService"><ion-icon name="call"></ion-icon></div>
+        <div *ngIf="hotel.noSmoking"><ion-icon name="logo-no-smoking"></ion-icon></div>
+        <div *ngIf="hotel.hasWifi"><ion-icon name="wifi"></ion-icon></div>
+        <div *ngIf="hotel.hasBar"><ion-icon name="wine"></ion-icon></div>
+        <div *ngIf="hotel.petAllow"><ion-icon name="paw"></ion-icon></div>
+        <div *ngIf="hotel.adults === 2">
+          <ion-icon name="people"></ion-icon>
+        </div>
+        <div *ngIf="hotel.adults === 1">
+          <ion-icon name="person"></ion-icon>
+        </div>
+      </div>
+      <div class="footer">
+        <div class="rooms-adults">
+          <span>{{ hotel.rooms + ' Rooms' }}</span>
+          <span>{{ hotel.adults + ' Adults' }}</span>
+        </div>
+        <div class="rooms-adults">
+          <div class="stars-container price">
+            <p>{{ hotel.price }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="select-btn">
+      <ion-button
+      [disabled]="isDisabled"
+      *ngIf="isSelectButtonVisible"
+      (click)="openConfirmationModalFunction()">{{buttonLabel}}</ion-button>
+    </div>
+  </div>
+</ion-card>

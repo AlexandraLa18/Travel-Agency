@@ -1,0 +1,34 @@
+<div class="table-container">
+  <div class="table-toolbar">
+    <ng-content select="[toolbar]"></ng-content>
+  </div>
+  <div class="table-content">
+    <table mat-table>
+      <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnName">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          [ngStyle]="{ width: column.width + 'px' }"
+        >
+          <div mat-sort-header [disabled]="true" [ngStyle]="{ width: column.width + 'px' }">
+            <b>
+              {{ column.columnName | capitalizeFirst }}
+            </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element[column.columnName!] }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="rowClick.emit(row)"></tr>
+    </table>
+  </div>
+  <mat-paginator
+    [length]="(total$ | async) || 0"
+    [pageSize]="pageSize"
+    showFirstLastButtons
+    (page)="handlePageChange($event)"
+  ></mat-paginator>
+</div>

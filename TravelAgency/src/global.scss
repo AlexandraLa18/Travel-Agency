@@ -1,0 +1,135 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+.my-custom-modal {
+  --height: 40%;
+  --width: 90%;
+  --border-radius: 20px;
+  --backdrop-opacity: 0.8 !important;
+}
+
+.confirmation-modal {
+  --height: 20%;
+  --width: 90%;
+  --border-radius: 16px;
+  --backdrop-opacity: 0.8 !important;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  .title {
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+  .confirm-message {
+    margin: 20px;
+    text-align: center;
+  }
+
+  ion-toolbar {
+    display: flex;
+    height: 74px;
+    --background: url("../src/assets/images/image2.jpg") no-repeat fixed
+      center;
+    color: #0e2263;
+  }
+
+  ion-content {
+    --color: black;
+    --background: var(--ion-card-background, var(--ion-item-background, var(--ion-background-color, #fff)));
+    --color: rgb(148,148,148) !important;
+  }
+}
+
+.info-modal {
+  --height: 40% !important;
+}
+
+.hotel-details-modal {
+  --height: 60%;
+  --width: 90%;
+  --border-radius: 20px;
+  --backdrop-opacity: 0.8 !important;
+}
+
+.vacation-details-modal {
+  --height: 80%;
+  --border-radius: 20px;
+  --backdrop-opacity: 0.8 !important;}
+
+.hotel-filter-modal {
+  --height: 20%;
+  --width: 90%;
+  --border-radius: 16px;
+  --backdrop-opacity: 0.8 !important;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  .title {
+    font-weight: bold;
+    font-size: 15px;
+  }
+
+  ion-toolbar {
+    display: flex;
+    height: 74px;
+    --background: url("../src/assets/images/image2.jpg") no-repeat fixed
+      center;
+    color: #0e2263;
+  }
+
+  ion-content {
+    --color: black;
+    --background: var(--ion-card-background, var(--ion-item-background, var(--ion-background-color, #fff)));
+    --color: rgb(148,148,148) !important;
+  }
+}
+.table-card {
+  border-radius: 15px;
+}
+
+.logo { 
+  width: 115px;
+  height: 45px;
+  margin: 10px;
+}
+
+.logo-header { 
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+
+  ion-icon {
+    height: 30px;
+    width: 30px;
+    color: #428cff;
+    margin: 10px;
+  }
+}
+.align-right {
+  justify-content: flex-end;
+}

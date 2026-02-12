@@ -1,0 +1,96 @@
+ion-content {
+  --color: black;
+  --background: var(--ion-card-background, var(--ion-item-background, var(--ion-background-color, #fff)));
+  --color: rgb(148,148,148) !important;
+}
+
+ion-toolbar {
+  display: flex;
+  height: 74px;
+  --background: url("../../../../../assets/images/image2.jpg") no-repeat fixed
+    center;
+  color: #0e2263;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.mini-header {
+  display: flex;
+  color: rgb(147 147 147);
+  font-size: 10px;
+  align-items: center;
+  div {
+    margin: 16px;
+  }
+}
+
+.second-mini-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+hr {
+  background-color: rgb(147, 147, 147);
+  width: 50px;
+}
+
+img {
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+}
+
+.container {
+  padding: 10px;
+}
+
+ion-card {
+  border-radius: 10px;
+}
+
+.price {
+  font-size: 25px;
+  margin: 10px;
+}
+
+.icons {
+  display: flex;
+  margin: 10px;
+  margin-left: 0;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+ion-icon {
+  width: 20px;
+  height: 20px;
+  margin: 10px;
+}
+
+ion-modal {
+  --height: 20%;
+  --width: 90%;
+  --border-radius: 16px;
+  --backdrop-opacity: 0.4 !important;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.title {
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.confirm-message {
+  margin: 20px;
+  text-align: center;
+}

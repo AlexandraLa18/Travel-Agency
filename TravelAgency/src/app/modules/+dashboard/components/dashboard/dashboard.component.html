@@ -1,0 +1,119 @@
+<ion-content>
+  <ion-header>
+    <div class="logo-header align-right">
+      <img class="logo" src="assets/images/logo4.png" />
+      <ion-icon (click)="logout()" name="exit"></ion-icon>
+    </div>
+    <div class="title">
+      <span>What's the next trip?</span>
+      <p>Find exclusive great deals in every corner of the world!</p>
+    </div>
+  </ion-header>
+  <div class="div-form">
+    <form [formGroup]="dashboardFormGroup">
+      <ion-item class="ionitem" fill="outline">
+        <ion-input
+        data-cy="to"
+          formControlName="destination"
+          (ionFocus)="handleFocus()"
+          (ionBlur)="handleBlur()"
+          placeholder="Destination"
+        ></ion-input>
+        <ion-button slot="end" fill="clear">
+          <ion-icon name="send-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ng-container
+        *ngIf="isInputFocused && (filteredDestinations$ | async) as options"
+      >
+        <ion-list *ngIf="options.length > 0">
+          <ion-item
+            *ngFor="let option of options"
+            (click)="selectOption(option)"
+          >
+            {{ option.city + ", " + option.country }}
+          </ion-item>
+        </ion-list>
+      </ng-container>
+
+      <ion-item class="ionitem" fill="outline">
+        <ion-label>Checkin</ion-label>
+        <ion-input
+          formControlName="checkin"
+          readonly
+          id="date1"
+          class="ion-text-end"
+        ></ion-input>
+        <ion-popover trigger="date1" size="cover">
+          <ng-template>
+            <ion-datetime
+              presentation="date"
+              formControlName="checkin"
+              locale="en-EN"
+              (ionChange)="updateCheckin()"
+            ></ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </ion-item>
+
+      <ion-item class="ionitem" fill="outline">
+        <ion-label>Checkout</ion-label>
+        <ion-input
+          formControlName="checkout"
+          readonly
+          id="date2"
+          class="ion-text-end"
+        ></ion-input>
+        <ion-popover trigger="date2" size="cover">
+          <ng-template>
+            <ion-datetime
+              presentation="date"
+              formControlName="checkout"
+              locale="en-EN"
+              (ionChange)="updateCheckout()"
+            ></ion-datetime>
+          </ng-template>
+        </ion-popover>
+      </ion-item>
+
+      <ion-item class="ionitem" fill="outline">
+        <ion-input
+          label="No. of adults"
+          type="number"
+          formControlName="adults"
+        ></ion-input>
+      </ion-item>
+
+      <div class="search-btn-div">
+        <ion-button data-cy="search" class="search-btn" (click)="searchDashboardVacations()">
+          <ion-icon name="search" slot="start"></ion-icon>
+          Search
+        </ion-button>
+      </div>
+    </form>
+  </div>
+  <div class="cards">
+    <div class="subtitle">Popular destinations</div>
+    <span>The most popular destinations for travelers from Romania</span>
+    <div>
+      <ng-container *ngIf="romaniaDestinations$ | async as options">
+        <ng-container *ngFor="let option of options">
+          <ion-card
+            (click)="onCardClick(option)"
+            [ngStyle]="{ 'background-image': 'url(' + option.imageUrl + ')' }"
+          >
+            <ion-card-header>
+              <ion-card-title>{{
+                option.city + ", " + option.country
+              }}</ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ng-container>
+      </ng-container>
+    </div>
+  </div>
+  <div class="chatbot-container">
+    <p>Can't decide on a destination or the best time to travel according to your preferences? Let us help you find the perfect getaway tailored just for you! Try asking our chatbot for personalized travel advice.</p>
+    <ion-button data-cy="chatbot" (click)="chatbotClick()">CHATBOT</ion-button>
+  </div>
+</ion-content>

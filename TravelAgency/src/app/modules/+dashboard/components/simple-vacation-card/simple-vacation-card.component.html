@@ -1,0 +1,31 @@
+<ion-card>
+  <div>
+    <div class="header">
+      <h2>{{ simpleVacation.title }}</h2>
+      <div class="subheader">
+        <div class="box green" *ngIf="simpleVacation.type">
+          <p>{{ simpleVacation.type }}</p>
+        </div>
+        <div class="box" *ngIf="simpleVacation.totalPrice">
+          <p>{{ simpleVacation.totalPrice }}</p>
+        </div>
+        <div class="box" *ngIf="simpleVacation.noOfPassengers">
+          <p>{{ simpleVacation.noOfPassengers + " Adults" }}</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p>{{ simpleVacation.description }}</p>
+    </div>
+    <app-hotel-details-view
+      [hotel]="simpleVacation.hotel"
+      [isSelectButtonVisible]="false"
+    ></app-hotel-details-view>
+
+    <div class="select-btn">
+        <ion-button
+        *ngIf="isSelectButtonVisible"
+        (click)="openConfirmationModalFunction()">{{buttonLabel}}</ion-button>
+      </div>
+  </div>
+</ion-card>

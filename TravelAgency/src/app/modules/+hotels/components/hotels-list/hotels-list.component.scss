@@ -1,0 +1,110 @@
+.delete-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+ion-modal {
+  --height: 80%;
+  --border-radius: 16px;
+  --box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+ion-modal::part(backdrop) {
+  background: rgb(0, 0, 0);
+  --backdrop-opacity: 0.8;
+  opacity: 1;
+}
+
+ion-popover {
+  --width: 270px !important;
+}
+
+.ion-text-end {
+  text-align: center !important;
+}
+
+ion-modal ion-toolbar {
+  display: flex;
+  height: 74px;
+  --background: url("../../../../../assets/images/image2.jpg") no-repeat fixed
+    center;
+  color: #0e2263;
+}
+
+ion-list {
+  width: 75%;
+  border-radius: 20px;
+  height: 100px;
+  overflow-y: auto;
+}
+
+.popup-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+}
+
+.table-toolbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .action-buttons-container {
+    display: flex;
+    button {
+      border: none;
+      background-color: transparent;
+      padding: 4px;
+    }
+  }
+  h2 {
+    padding-left: 10px;
+    font-size: 21px;
+    color: rgb(172, 172, 172);
+  }
+}
+
+ion-item {
+  margin: 10px;
+  width: 100%;
+  border-radius: 10px;
+}
+
+ion-datetime-button {
+  margin: 10px;
+}
+
+.date {
+  width: 300px;
+  height: 300px;
+}
+
+.date-picker-container {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+.search-btn {
+  margin-top: 50px;
+}
+
+.viewModal {
+  --height: 50%;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  .popup-container {
+    width: 70%;
+  }
+}
+
+ion-select {
+  margin-left: 75px;
+}

@@ -1,0 +1,414 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="logo-header">
+      <ion-title>Vacations</ion-title>
+      <img class="logo" src="assets/images/logo4.png">
+      <ion-icon (click)="logout()" name="exit"></ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card class="table-card">
+    <app-table-wrapper
+      data-cy="vacations-table"
+      [total$]="total$"
+      [dataSource$]="vacationsList$"
+      [pageSize]="pageSize"
+      (pageChange)="pageChange($event)"
+      [tableFields]="tableFields"
+      (rowClick)="goToDetailsView($event)"
+      matSort
+    >
+      <ng-container toolbar>
+        <div class="table-toolbar-container">
+          <h2>{{ total$ | async }} {{ "Vacations (Hotel + Flight)" }}</h2>
+          <div class="action-buttons-container">
+            <ion-button id="open-vacations-modal" expand="block" fill="clear">
+              <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+            </ion-button>
+
+            <!-- <ion-button (click)="toggleFilter()" fill="clear">
+              <ion-icon slot="icon-only" name="options"></ion-icon>
+            </ion-button> -->
+          </div>
+        </div>
+        <ion-modal id="vacations" #modal trigger="open-vacations-modal">
+          <ng-template>
+            <ion-content>
+              <ion-toolbar>
+                <ion-title>Add Vacation</ion-title>
+                <ion-buttons slot="end">
+                  <ion-button color="light" (click)="close(modal)"
+                    >Close</ion-button
+                  >
+                </ion-buttons>
+                <ion-buttons slot="end">
+                  <ion-button color="light" (click)="saveVacation(modal)"
+                    >Save</ion-button
+                  >
+                </ion-buttons>
+              </ion-toolbar>
+              <form appOnFormSubmit [formGroup]="vacationsFormGroup">
+                <div class="popup-container">
+                  <ion-item>
+                    <ion-select
+                      formControlName="from"
+                      interface="popover"
+                      placeholder="From"
+                      class="select-class"
+                    >
+                      <ion-select-option
+                        *ngFor="let destination of destinations$ | async"
+                        [value]="destination"
+                      >
+                        {{ destination.city + ", " + destination.country }}
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-select
+                      formControlName="to"
+                      interface="popover"
+                      placeholder="To"
+                      class="select-class"
+                    >
+                      <ion-select-option
+                        *ngFor="let destination of destinations$ | async"
+                        [value]="destination"
+                      >
+                        {{ destination.city + ", " + destination.country }}
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-input
+                      label="Start Date"
+                      formControlName="startDate"
+                      readonly
+                      id="date12"
+                      class="ion-text-end"
+                    ></ion-input>
+                    <ion-popover trigger="date12" size="cover">
+                      <ng-template>
+                        <ion-datetime
+                          presentation="date"
+                          formControlName="startDate"
+                          locale="en-EN"
+                          (ionChange)="updateCheckin()"
+                        ></ion-datetime>
+                      </ng-template>
+                    </ion-popover>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-input
+                      label="End Date"
+                      formControlName="endDate"
+                      readonly
+                      id="date13"
+                      class="ion-text-end"
+                    ></ion-input>
+                    <ion-popover trigger="date13" size="cover">
+                      <ng-template>
+                        <ion-datetime
+                          presentation="date"
+                          formControlName="endDate"
+                          locale="en-EN"
+                          (ionChange)="updateCheckout()"
+                        ></ion-datetime>
+                      </ng-template>
+                    </ion-popover>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-select
+                      formControlName="type"
+                      aria-label="Type"
+                      interface="popover"
+                      placeholder="Type"
+                    >
+                      <ion-select-option value="City Break"
+                        >City Break</ion-select-option
+                      >
+                      <ion-select-option value="Early Booking"
+                        >Early Booking</ion-select-option
+                      >
+                      <ion-select-option value="Last Minute"
+                        >Last Minute</ion-select-option
+                      >
+                      <ion-select-option value="Low Price"
+                      >Low Price</ion-select-option
+                    >
+                      <ion-select-option value="-">-</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-textarea formControlName="title"  placeholder="Title"></ion-textarea>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-textarea formControlName="description"  placeholder="Description"></ion-textarea>
+                  </ion-item>
+
+                  <ion-checkbox formControlName="showInDashboard" labelPlacement="end"
+                    >Show in Dashboard</ion-checkbox
+                  >
+                </div>
+              </form>
+              <div class="popup-container cards">
+                <ion-button
+                  *ngIf="(hotelIsSelected$ | async) === false"
+                  class="search-btn"
+                  (click)="searchHotels()"
+                >
+                  <ion-icon name="search" slot="start"></ion-icon>
+                  Search Hotel Bookings
+                </ion-button>
+
+                <ng-container
+                  *ngIf="selectedHotelBooking$ | async as selectedHotelBooking"
+                >
+                  <app-hotel-details-view
+                    *ngIf="hotelIsSelected$ | async"
+                    [hotel]="selectedHotelBooking"
+                    [isSelectButtonVisible]="false"
+                  ></app-hotel-details-view>
+                </ng-container>
+
+                <ion-button
+                  *ngIf="(flightIsSelected$ | async) === false"
+                  class="search-btn"
+                  (click)="searchFlights()"
+                >
+                  <ion-icon name="search" slot="start"></ion-icon>
+                  Search Flight Bookings
+                </ion-button>
+
+                <ng-container
+                  *ngIf="
+                    selectedFlightBooking$ | async as selectedFlightBooking
+                  "
+                >
+                  <app-flight-details-view
+                    class="flight-card"
+                    *ngIf="flightIsSelected$ | async"
+                    [flight]="selectedFlightBooking"
+                    [isSelectButtonVisible]="false"
+                  ></app-flight-details-view>
+                </ng-container>
+              </div>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="table-action-buttons">
+          <div class="table-action-buttons delete-container">
+            <button mat-icon-button (click)="deleteVacation(element, $event)">
+              <mat-icon fontIcon="delete"></mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="from">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> From </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.flight.fromDestination.city + ", " + element.flight.fromDestination.country}}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="to">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> To </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.flight.toDestination.city +", " + element.flight.toDestination.country }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> Start Date </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.hotel.checkin }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="endDate">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> End Date </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.hotel.checkout }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="flight">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> Flight </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{
+            element.flight.originDisplayCode +
+              " - " +
+              element.flight.destinationDisplayCode
+          }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="hotel">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> Hotel </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.hotel.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="totalPrice">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> Total Price </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.totalPrice }}
+        </td>
+      </ng-container>
+      <!-- <ng-container matColumnDef="showInDashboard">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> Show in Dashboard </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.showInDashboard }}
+        </td>
+      </ng-container> -->
+      <ng-container matColumnDef="isUsed">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> Booked </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.used !== false ? element.user?.email: 'False' }}
+        </td>
+      </ng-container>
+    </app-table-wrapper>
+  </ion-card>
+
+  <ion-card class="table-card">
+    <app-table-wrapper
+      data-cy="simple-vacations-table"
+      [total$]="Stotal$"
+      [dataSource$]="simpleVacationsList$"
+      [pageSize]="pageSize"
+      (pageChange)="pageChange1($event)"
+      [tableFields]="simpleVacationsTableFields"
+      (rowClick)="goToDetailsViewSV($event)"
+      matSort
+    >
+    <ng-container toolbar>
+      <div class="table-toolbar-container">
+        <h2>{{ Stotal$ | async }} {{ "Simple Vacations (Hotel)" }}</h2>
+      </div>
+    </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="table-action-buttons">
+          <div class="table-action-buttons delete-container">
+            <button mat-icon-button (click)="deleteSimpleVacation(element, $event)">
+              <mat-icon fontIcon="delete"></mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="to">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> Destination </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.hotel.destination.city +", " + element.hotel.destination.country }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="startDate">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> Start Date </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.hotel.checkin }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="endDate">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> End Date </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.hotel.checkout }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="hotel">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> Hotel </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.hotel.name }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="totalPrice">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> Total Price </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.totalPrice }}
+        </td>
+      </ng-container>
+      <!-- <ng-container matColumnDef="showInDashboard">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> Show in Dashboard </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.showInDashboard }}
+        </td>
+      </ng-container> -->
+      <ng-container matColumnDef="isUsed">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header [ngStyle]="{ width: '100px' }">
+            <b> Booked </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.used !== false ? element.user?.email: 'False' }}
+        </td>
+      </ng-container>
+    </app-table-wrapper>
+  </ion-card>
+</ion-content>

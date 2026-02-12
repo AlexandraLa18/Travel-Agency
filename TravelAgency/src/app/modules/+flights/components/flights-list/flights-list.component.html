@@ -1,0 +1,260 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <div class="logo-header">
+      <ion-title>Flights</ion-title>
+      <img class="logo" src="assets/images/logo4.png" />
+      <ion-icon (click)="logout()" name="exit"></ion-icon>
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-card class="table-card">
+    <app-table-wrapper
+    data-cy="flights-table"
+      [total$]="total$"
+      [dataSource$]="flightsList$"
+      [pageSize]="pageSize"
+      (pageChange)="pageChange($event)"
+      [tableFields]="tableFields"
+      (rowClick)="goToDetailsView($event)"
+      matSort
+    >
+      <ng-container toolbar>
+        <div class="table-toolbar-container">
+          <h2>{{ total$ | async }} {{ "Flight Bookings" }}</h2>
+          <div class="action-buttons-container">
+            <ion-button id="open-flights-modal" expand="block" fill="clear">
+              <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+            </ion-button>
+
+            <!-- <ion-button (click)="toggleFilter()" fill="clear">
+              <ion-icon slot="icon-only" name="options"></ion-icon>
+            </ion-button> -->
+          </div>
+        </div>
+
+        <ion-modal id="flight-bookings" #modal trigger="open-flights-modal">
+          <ng-template>
+            <ion-content>
+              <ion-toolbar>
+                <ion-title>Flight Booking</ion-title>
+                <ion-buttons slot="end">
+                  <ion-button color="light" (click)="close(modal)"
+                    >Close</ion-button
+                  >
+                </ion-buttons>
+              </ion-toolbar>
+              <form [formGroup]="flightBookingFormGroup">
+                <div class="popup-container">
+                  <ion-item>
+                    <ion-select
+                      formControlName="fromDestination"
+                      aria-label="Leaving from"
+                      interface="popover"
+                      placeholder="Leaving from"
+                      class="select-class"
+                    >
+                      <ion-select-option
+                        *ngFor="let destination of destinations$ | async"
+                        [value]="destination"
+                      >
+                        {{ destination.city + ", " + destination.country }}
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                  <ion-item>
+                    <ion-select
+                      formControlName="toDestination"
+                      aria-label="Going to"
+                      interface="popover"
+                      placeholder="Going to"
+                    >
+                      <ion-select-option
+                        *ngFor="let destination of destinations$ | async"
+                        [value]="destination"
+                      >
+                        {{ destination.city + ", " + destination.country }}
+                      </ion-select-option>
+                    </ion-select>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-input
+                      label="No. of passengers"
+                      type="number"
+                      formControlName="numberOfPassengers"
+                    ></ion-input>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-select
+                      formControlName="cabinClass"
+                      aria-label="Cabin class"
+                      interface="popover"
+                      placeholder="Cabin class"
+                      value="economy"
+                    >
+                      <ion-select-option value="economy"
+                        >Economy</ion-select-option
+                      >
+                      <ion-select-option value="premium_economy"
+                        >Premium economy</ion-select-option
+                      >
+                      <ion-select-option value="business"
+                        >Business</ion-select-option
+                      >
+                      <ion-select-option value="Do not include in request"
+                        >Anything</ion-select-option
+                      >
+                    </ion-select>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-label>Depart date</ion-label>
+                    <ion-input
+                      formControlName="departDate"
+                      readonly
+                      id="date6"
+                      class="ion-text-end"
+                    ></ion-input>
+                    <ion-popover trigger="date6" size="cover">
+                      <ng-template>
+                        <ion-datetime
+                          presentation="date"
+                          formControlName="departDate"
+                          locale="en-EN"
+                          (ionChange)="updateDepartDate()"
+                        ></ion-datetime>
+                      </ng-template>
+                    </ion-popover>
+                  </ion-item>
+
+                  <ion-item>
+                    <ion-label>Return date</ion-label>
+                    <ion-input
+                      formControlName="endDate"
+                      readonly
+                      id="date7"
+                      class="ion-text-end"
+                    ></ion-input>
+                    <ion-popover trigger="date7" size="cover">
+                      <ng-template>
+                        <ion-datetime
+                          presentation="date"
+                          formControlName="endDate"
+                          locale="en-EN"
+                          (ionChange)="updateReturnDate()"
+                        ></ion-datetime>
+                      </ng-template>
+                    </ion-popover>
+                  </ion-item>
+
+                  <ion-button class="search-btn" (click)="searchFlights()">
+                    <ion-icon name="search" slot="start"></ion-icon>
+                    Search
+                  </ion-button>
+                </div>
+              </form>
+            </ion-content>
+          </ng-template>
+        </ion-modal>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element" class="table-action-buttons">
+          <div class="table-action-buttons delete-container">
+            <button mat-icon-button (click)="deleteFlight(element, $event)">
+              <mat-icon fontIcon="delete"></mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="fromDestination">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header>
+            <b> From </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{
+            element.fromDestination.city +
+              ", " +
+              element.fromDestination.country
+          }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="toDestination">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header>
+            <b> To </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{
+            element.toDestination.city + ", " + element.toDestination.country
+          }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="departureOrigin">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header>
+            <b> Depart date </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.departureOrigin | date : "dd-MM-yy" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="departureDestination">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header>
+            <b> Return date </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.departureDestination | date : "dd-MM-yy" }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="flightPlaceDepart">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header>
+            <b> Place depart </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.flightPlaceDepart }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="flightPlaceReturn">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header>
+            <b> Place return </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.flightPlaceReturn }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="cabinClass">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header>
+            <b> Cabin class </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.cabinClass }}</td>
+      </ng-container>
+      <ng-container matColumnDef="noPassengers">
+        <th mat-header-cell *matHeaderCellDef [ngStyle]="{ width: 10 + '%' }">
+          <div mat-sort-header>
+            <b> No. passengers </b>
+          </div>
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.noPassengers }}</td>
+      </ng-container>
+    </app-table-wrapper>
+  </ion-card>
+</ion-content>

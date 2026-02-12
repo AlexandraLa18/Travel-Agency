@@ -1,0 +1,36 @@
+ion-card {
+    --background: rgb(18,18,18);
+    overflow-y: auto;
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+            color: #fff;
+        }
+        .box {
+            border-radius: 10px;
+            background-color: #428cff;
+            color: #fff;
+            margin: 5px;
+        }
+
+        .subheader {
+            display: flex;
+            flex-direction: row;
+            .green-background {
+                background-color: green;
+            }
+        }
+    }
+
+    p {
+        text-align: justify;
+        margin: 10px;
+        font-size: 15px;
+    }
+}

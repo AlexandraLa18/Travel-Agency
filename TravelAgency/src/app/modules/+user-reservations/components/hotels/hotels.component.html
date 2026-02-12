@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <div class="toolbar">
+        <div class="destination">
+          <ion-icon name="bed"></ion-icon>
+          <span>My Hotel Bookings</span>
+        </div>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="container">
+    <ng-container *ngIf="hotels$ | async as options">
+      <ion-list *ngIf="options.length > 0; else noHotels">
+        <ng-container *ngFor="let option of options">
+          <app-hotel-details-view
+            *ngIf="option.price"
+            [hotel]="option"
+            [isSelectButtonVisible]="true"
+            [buttonLabel]="'CANCEL'"
+            (openConfirmationModal)="openConfirmationModal($event)"
+          ></app-hotel-details-view>
+        </ng-container>
+      </ion-list>
+    </ng-container>
+    <ng-template #noHotels>
+      <div class="div-spinner">
+        <p>
+          No hotel booking for now.
+        </p>
+      </div>
+    </ng-template>
+  </div>
+</ion-content>

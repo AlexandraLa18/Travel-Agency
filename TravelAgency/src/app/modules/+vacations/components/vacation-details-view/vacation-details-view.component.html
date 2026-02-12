@@ -1,0 +1,34 @@
+<ion-card>
+  <div>
+    <div class="header">
+      <h2>{{ vacation.title }}</h2>
+      <div class="subheader">
+        <div *ngIf="vacation.used" class="box green-background">
+          <p>Booked</p>
+        </div>
+        <div class="box">
+          <p>{{ vacation.type }}</p>
+        </div>
+        <div class="box">
+          <p>{{ vacation.totalPrice }}</p>
+        </div>
+        <div class="box">
+          <p>{{ vacation.noOfPassengers + ' Adults' }}</p>
+        </div>
+      </div>
+    </div>
+    <div>
+      <p>{{ vacation.description }}</p>
+    </div>
+    <app-hotel-details-view
+      [hotel]="vacation.hotel"
+      [isSelectButtonVisible]="false"
+    ></app-hotel-details-view>
+    <app-flight-details-view
+      *ngIf="vacation.flight"
+      class="flight-card"
+      [flight]="vacation.flight"
+      [isSelectButtonVisible]="false"
+    ></app-flight-details-view>
+  </div>
+</ion-card>

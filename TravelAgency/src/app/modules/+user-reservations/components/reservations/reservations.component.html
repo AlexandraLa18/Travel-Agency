@@ -1,0 +1,49 @@
+<ion-content>
+  <ion-header>
+    <div class="logo-header align-right">
+      <img class="logo" src="assets/images/logo4.png" />
+      <ion-icon (click)="logout()" name="exit"></ion-icon>
+    </div>
+    <div class="title">
+      <span>My Reservations</span>
+      <!-- <p>Book Flight + Hotel</p> -->
+    </div>
+  </ion-header>
+
+  <ion-card
+    (click)="onVacationCardClick()"
+    [ngStyle]="{ 'background-image': 'url(assets/images/vacation-plane.jpg)' }"
+  >
+    <ion-card-header>
+      <ion-card-title>Vacation (Hotel + Flight)</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card
+    (click)="onSimpleVacationsCardClick()"
+    [ngStyle]="{ 'background-image': 'url(assets/images/simple-vacation.jpg)' }"
+  >
+    <ion-card-header>
+      <ion-card-title>Simple Vacation Packages (Hotel)</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card
+    (click)="onHotelCardClick()"
+    [ngStyle]="{ 'background-image': 'url(assets/images/hotel-room.jpg)' }"
+  >
+    <ion-card-header>
+      <ion-card-title>Hotel Bookings</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+
+  <ion-card
+    (click)="onFlightCardClick()"
+    [ngStyle]="{ 'background-image': 'url(assets/images/flight.jpg)' }"
+  >
+    <ion-card-header>
+      <ion-card-title>Flight Bookings</ion-card-title>
+    </ion-card-header>
+  </ion-card>
+  
+</ion-content>

@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <div class="toolbar">
+        <div class="destination">
+          <ion-icon name="airplane"></ion-icon>
+          <span>My Flight Bookings</span>
+        </div>
+      </div>
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">Close</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div class="container">
+    <ng-container *ngIf="flights$ | async as options">
+      <ion-list *ngIf="options.length > 0; else noFlights">
+        <app-flight-details-view
+          *ngFor="let option of options"
+          [flight]="option"
+          [isSelectButtonVisible]="true"
+          [buttonLabel]="'CANCEL'"
+          (openConfirmationModal)="openConfirmationModal($event)"
+        ></app-flight-details-view>
+      </ion-list>
+    </ng-container>
+    <ng-template #noFlights>
+      <div class="div-spinner">
+        <p>
+          No flight booking for now.
+        </p>
+      </div>
+    </ng-template>
+  </div>
+</ion-content>
